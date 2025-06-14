@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ContactSection from '@/components/layouts/ContactSection.vue'
 import InformationSection from '@/components/layouts/InformationSection.vue'
+import ProjectionSection from '@/components/layouts/ProjectionSection.vue'
 import ProfilePictureComponent from '@/components/ProfilePictureComponent.vue'
 </script>
 
@@ -10,6 +11,7 @@ import ProfilePictureComponent from '@/components/ProfilePictureComponent.vue'
       <ProfilePictureComponent />
       <InformationSection />
       <ContactSection />
+      <ProjectionSection />
     </div>
   </div>
 </template>
