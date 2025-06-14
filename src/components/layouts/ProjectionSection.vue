@@ -1,27 +1,34 @@
 <template>
-  <div class="flex flex-col items-start w-3xl">
-    <div
-      v-for="(project, index) in projects"
-      :key="index"
-      class="p-4 rounded-xl hover:bg-[#232323] transition-colors w-full font-"
-    >
-      <div class="flex flex-row justify-between">
-        <div class="flex flex-row gap-2">
-          <animated :text="project.title" class-name="font-bold text-white" :delay="index * 300" />
+  <div class="flex w-3xl flex-col gap-5">
+    <h1 class="text-xl px-4">Projects & Accolades</h1>
+    <section>
+      <div
+        v-for="(project, index) in projects"
+        :key="index"
+        class="p-4 rounded-xl hover:bg-[#232323] transition-colors w-full"
+      >
+        <div class="flex flex-row justify-between">
+          <div class="flex flex-row gap-2">
+            <animated
+              :text="project.title"
+              class-name="font-bold text-white"
+              :delay="index * 300"
+            />
+            <animated
+              :text="project.description"
+              class-name="text-gray-400 font-light"
+              :delay="index * 300 + 200"
+            />
+          </div>
           <animated
-            :text="project.description"
-            class-name="text-gray-400 font-light"
-            :delay="index * 300 + 200"
+            :text="project.year"
+            tag="span"
+            class-name="text-gray-400"
+            :delay="index * 300 + 400"
           />
         </div>
-        <animated
-          :text="project.year"
-          tag="span"
-          class-name="text-gray-400"
-          :delay="index * 300 + 400"
-        />
       </div>
-    </div>
+    </section>
   </div>
 </template>
 
