@@ -129,7 +129,7 @@ onUnmounted(() => {
 <template>
   <component
     :is="tag"
-    :class="['font-mono tracking-wide transition-colors duration-200', className]"
+    :class="['tracking-wide transition-colors duration-200', className]"
     v-bind="$attrs"
   >
     {{ scrambledText || text }}

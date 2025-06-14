@@ -3,14 +3,14 @@
     <div
       v-for="(project, index) in projects"
       :key="index"
-      class="p-4 rounded-xl hover:bg-[#232323] transition-colors w-full"
+      class="p-4 rounded-xl hover:bg-[#232323] transition-colors w-full font-"
     >
       <div class="flex flex-row justify-between">
         <div class="flex flex-row gap-2">
           <animated :text="project.title" class-name="font-bold text-white" :delay="index * 300" />
           <animated
             :text="project.description"
-            class-name="text-gray-400 "
+            class-name="text-gray-400 font-light"
             :delay="index * 300 + 200"
           />
         </div>
