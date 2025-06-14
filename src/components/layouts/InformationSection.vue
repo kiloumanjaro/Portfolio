@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import Animated from '../AnimatedTextComponent.vue'
+</script>
+
 <template>
   <div class="flex flex-col items-center w-3xl gap-9">
     <div class="w-9/12">
@@ -15,5 +19,6 @@
       Reflecting this, his skillset is a mixture of strong product foundation (Visual Design, UX/UI,
       Research, Mobile-Web Interfaces) and exploratory (3D, Packaging, Immersive Design) expertises.
     </p>
+    <Animated text="asssssssssssssssda" class-name="text-green-300 font-bold text-lg" />
   </div>
 </template>
