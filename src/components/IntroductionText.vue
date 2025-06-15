@@ -6,12 +6,9 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex flex-col gap-3">
-    <h1 class="text-3xl w-1/2">{{ title }}</h1>
+  <div class="flex flex-col gap-7">
+    <h1 class="text-4xl font-medium w-7/12">{{ title }}</h1>
     <h3 class="w-2/5">{{ description }}</h3>
-    <i>
-      <slot name="icon"></slot>
-    </i>
   </div>
 </template>
 

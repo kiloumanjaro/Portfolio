@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import NorthEast from './icons/NorthEast.vue'
 defineProps<{
   href: string
   title: string
@@ -7,8 +6,14 @@ defineProps<{
 </script>
 
 <template>
-  <a :href="href" target="_blank" rel="noopener" class="flex flex-row">
+  <a
+    :href="href"
+    target="_blank"
+    rel="noopener"
+    class="flex flex-row items-center gap-1 hover:text-blue-500"
+  >
     {{ title }}
-    <NorthEast />
+
+    <v-icon icon="mdi-arrow-top-right" size="20" class="relative -mt-[2px]" />
   </a>
 </template>

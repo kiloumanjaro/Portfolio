@@ -7,8 +7,8 @@ import TabsComponent from './components/TabsComponent.vue'
 <template>
   <header>
     <div class="flex flex-row w-full p-10 justify-between items-center">
-      <h1 class="text-lg font-bold">KILOU</h1>
-      <div class="flex gap-12">
+      <h1 class="text-lg font-bold text-white">KILOU</h1>
+      <div class="flex gap-12 text-white">
         <LinkComponent
           title="LinkedIn"
           href="https://www.linkedin.com/in/kint-louise-borbano-6982a4327/"
