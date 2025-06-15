@@ -2,6 +2,7 @@
 import ContactSection from '@/components/layouts/ContactSection.vue'
 import InformationSection from '@/components/layouts/InformationSection.vue'
 import ProjectionSection from '@/components/layouts/ProjectionSection.vue'
+import TechstackSection from '@/components/layouts/TechstackSection.vue'
 import ProfilePictureComponent from '@/components/ProfilePictureComponent.vue'
 </script>
 
@@ -11,6 +12,7 @@ import ProfilePictureComponent from '@/components/ProfilePictureComponent.vue'
       <div class="flex flex-col items-center gap-10">
         <ProfilePictureComponent />
         <InformationSection />
+        <TechstackSection />
       </div>
       <ContactSection />
       <ProjectionSection />
