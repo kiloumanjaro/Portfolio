@@ -2,14 +2,25 @@
 import { RouterView } from 'vue-router'
 import LinkComponent from './components/LinkComponent.vue'
 import TabsComponent from './components/TabsComponent.vue'
-import { ref, onMounted, onUnmounted } from 'vue'
-const cursor = ref(null)
+import { ref, onMounted, onUnmounted, provide } from 'vue'
+
+const cursor = ref<HTMLElement | null>(null)
 const cursorX = ref(0)
 const cursorY = ref(0)
+const cursorColor = ref('#393939')
+const cursorScale = ref(1)
+const cursorClass = ref('')
+
 const updateCursorPosition = (e: MouseEvent) => {
   cursorX.value = e.clientX
   cursorY.value = e.clientY
 }
+
+provide('cursorState', {
+  cursorColor,
+  cursorScale,
+  cursorClass,
+})
 
 onMounted(() => {
   document.addEventListener('mousemove', updateCursorPosition)
@@ -25,11 +36,15 @@ onUnmounted(() => {
   <div class="cursor-none">
     <div
       ref="cursor"
-      class="fixed w-9 h-9 bg-[#393939] hover:bg-black rounded-full pointer-events-none z-[9999] transition-transform duration-100 ease-out"
+      class="fixed rounded-full pointer-events-none z-[9999]"
+      :class="cursorClass"
       :style="{
         left: cursorX + 'px',
         top: cursorY + 'px',
+        width: 36 * cursorScale + 'px',
+        height: 36 * cursorScale + 'px',
         transform: 'translate(-50%, -50%)',
+        backgroundColor: cursorColor,
       }"
     ></div>
 
