@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import LinkComponent from './components/LinkComponent.vue'
+import AnimatedLinkComponent from './components/AnimatedLinkComponent.vue'
 import TabsComponent from './components/TabsComponent.vue'
 import { ref, onMounted, onUnmounted, provide } from 'vue'
 
@@ -51,12 +51,17 @@ onUnmounted(() => {
     <header>
       <div class="flex flex-row w-full p-10 justify-between items-center">
         <h1 class="text-lg font-bold text-white">KILOU</h1>
-        <div class="flex gap-12 text-white">
-          <LinkComponent
-            title="LinkedIn"
+        <div class="flex gap-3 text-white">
+          <a
             href="https://www.linkedin.com/in/kint-louise-borbano-6982a4327/"
-          />
-          <LinkComponent title="GitHub" href="https://github.com/kiloumanjaro" />
+            target="_blank"
+            rel="noopener"
+          >
+            <AnimatedLinkComponent name="LinkedIn" rounded="rounded-md" />
+          </a>
+          <a href="https://github.com/kiloumanjaro" target="_blank" rel="noopener">
+            <AnimatedLinkComponent name="GitHub" rounded="rounded-md" />
+          </a>
         </div>
         <div class="absolute left-1/2 transform -translate-x-1/2">
           <TabsComponent />
