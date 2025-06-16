@@ -13,11 +13,11 @@
         <p>How Apple beat Swiss watchmakers at their own game</p>
       </div>
       <div class="flex flex-col gap-3">
-        <div class="bg-[#232323] p-4 rounded-md h-48">1</div>
+        <AnimatedButtonComponent class="h-48" />
         <p>My chatbot is dead</p>
       </div>
       <div class="flex flex-col gap-3">
-        <div class="bg-[#232323] p-4 rounded-md h-48">2</div>
+        <AnimatedButtonComponent class="h-48" />
         <p>The rise of Anti-notifications</p>
       </div>
     </div>
