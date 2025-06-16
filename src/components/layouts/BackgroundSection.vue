@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col justify-center bg-blue-600 w-4xl gap-9">
+  <div class="flex flex-col justify-center w-4xl gap-9">
     <div class="flex flex-col gap-3">
       <h1 class="text-2xl">Background</h1>
       <p>
@@ -9,17 +9,21 @@
     </div>
     <div class="grid grid-cols-3 gap-4">
       <div class="flex flex-col gap-3">
-        <div class="bg-green-600 p-4 rounded-md h-48"></div>
+        <AnimatedButtonComponent class="h-48" />
         <p>How Apple beat Swiss watchmakers at their own game</p>
       </div>
       <div class="flex flex-col gap-3">
-        <div class="bg-red-300 p-4 rounded-md h-48">1</div>
+        <div class="bg-[#232323] p-4 rounded-md h-48">1</div>
         <p>My chatbot is dead</p>
       </div>
       <div class="flex flex-col gap-3">
-        <div class="bg-green-300 p-4 rounded-md h-48">2</div>
+        <div class="bg-[#232323] p-4 rounded-md h-48">2</div>
         <p>The rise of Anti-notifications</p>
       </div>
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import AnimatedButtonComponent from '../AnimatedButtonComponent.vue'
+</script>

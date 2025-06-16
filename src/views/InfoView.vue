@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ContactSection from '@/components/layouts/ContactSection.vue'
 import InformationSection from '@/components/layouts/InformationSection.vue'
-import ProjectionSection from '@/components/layouts/ProjectionSection.vue'
+import AccoladesSection from '@/components/layouts/AccoladesSection.vue'
 import TechstackSection from '@/components/layouts/TechstackSection.vue'
 import ProfilePictureComponent from '@/components/ProfilePictureComponent.vue'
 </script>
@@ -15,7 +15,7 @@ import ProfilePictureComponent from '@/components/ProfilePictureComponent.vue'
         <TechstackSection />
       </div>
       <ContactSection />
-      <ProjectionSection />
+      <AccoladesSection />
     </div>
   </div>
 </template>

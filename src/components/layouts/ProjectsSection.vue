@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import VideoPlaceHolderComponent from '../VideoPlaceHolderComponent.vue'
+import VideoPlaceHolderComponent from '../WVideoPlaceHolderComponent.vue'
 import sidebar from '@/assets/videos/sidebar.mp4'
 </script>
 
