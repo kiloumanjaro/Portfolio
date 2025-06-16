@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ButtonComponent from '../ButtonComponent.vue'
+import AnimatedButtonComponent from '../AnimatedButtonComponent.vue'
 import IntroductionText from '../IntroductionText.vue'
 </script>
 
@@ -10,6 +10,8 @@ import IntroductionText from '../IntroductionText.vue'
       description="My passion is create emotional experiences
 at the intersection of art, design, and AI."
     />
-    <ButtonComponent text="Skillset" />
+    <div class="w-30">
+      <AnimatedButtonComponent name="Click" rounded="rounded-3xl" />
+    </div>
   </div>
 </template>

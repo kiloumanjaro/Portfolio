@@ -1,5 +1,49 @@
+<template>
+  <button
+    ref="button1"
+    @mouseenter="handleButtonEnter($event)"
+    @mouseleave="handleButtonLeave"
+    @mousemove="handleButtonMove"
+    class="relative overflow-hidden bg-[#232323] text-white px-6 py-3 w-full group transition-transform duration-100 ease-out"
+    :class="rounded"
+    :style="{ transform: buttonScale }"
+  >
+    <!-- Ripple effect element -->
+    <div
+      class="absolute pointer-events-none rounded-full bg-[#393939]"
+      :style="{
+        left: rippleStyle.left,
+        top: rippleStyle.top,
+        transform: rippleStyle.transform,
+        opacity: rippleStyle.opacity,
+        width: '60px',
+        height: '60px',
+        marginLeft: '-30px',
+        marginTop: '-30px',
+        transition: 'all 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+      }"
+    ></div>
+
+    <span
+      class="relative z-10 flex items-center justify-center transition-transform duration-200 ease-out"
+      :style="{ transform: buttonTransform }"
+    >
+      <div class="shrink-0" v-if="icon">
+        <v-icon :icon="icon" size="80" />
+      </div>
+      <div class="text-white text-md" v-else>{{ name }}</div>
+    </span>
+  </button>
+</template>
+
 <script setup lang="ts">
 import { ref, inject, type Ref } from 'vue'
+
+defineProps<{
+  icon?: string
+  name?: string
+  rounded?: string
+}>()
 
 const buttonTransform = ref('translate(0, 0)')
 const buttonScale = ref('scale(1)')
@@ -92,45 +136,3 @@ const handleButtonMove = (e: MouseEvent) => {
   buttonTransform.value = `translate(${moveX}px, ${moveY}px)`
 }
 </script>
-
-<template>
-  <button
-    ref="button1"
-    @mouseenter="handleButtonEnter($event)"
-    @mouseleave="handleButtonLeave"
-    @mousemove="handleButtonMove"
-    class="relative overflow-hidden bg-[#232323] text-white px-6 py-3 rounded-md w-full group transition-transform duration-100 ease-out"
-    :style="{ transform: buttonScale }"
-  >
-    <!-- Ripple effect element -->
-    <div
-      class="absolute pointer-events-none rounded-full bg-[#393939]"
-      :style="{
-        left: rippleStyle.left,
-        top: rippleStyle.top,
-        transform: rippleStyle.transform,
-        opacity: rippleStyle.opacity,
-        width: '60px',
-        height: '60px',
-        marginLeft: '-30px',
-        marginTop: '-30px',
-        transition: 'all 250ms cubic-bezier(0.4, 0, 0.2, 1)',
-      }"
-    ></div>
-
-    <span
-      class="relative z-10 flex items-center justify-center transition-transform duration-200 ease-out"
-      :style="{ transform: buttonTransform }"
-    >
-      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M13 10V3L4 14h7v7l9-11h-7z"
-        ></path>
-      </svg>
-      Primary Action
-    </span>
-  </button>
-</template>

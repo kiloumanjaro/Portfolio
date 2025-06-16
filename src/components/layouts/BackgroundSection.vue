@@ -9,15 +9,15 @@
     </div>
     <div class="grid grid-cols-3 gap-4">
       <div class="flex flex-col gap-3">
-        <AnimatedButtonComponent class="h-48" />
+        <AnimatedButtonComponent class="h-48" icon="mdi-youtube" rounded="rounded-md" />
         <p>How Apple beat Swiss watchmakers at their own game</p>
       </div>
       <div class="flex flex-col gap-3">
-        <AnimatedButtonComponent class="h-48" />
+        <AnimatedButtonComponent class="h-48" icon="mdi-alpha-b-box-outline" rounded="rounded-md" />
         <p>My chatbot is dead</p>
       </div>
       <div class="flex flex-col gap-3">
-        <AnimatedButtonComponent class="h-48" />
+        <AnimatedButtonComponent class="h-48" icon="mdi-facebook" rounded="rounded-md" />
         <p>The rise of Anti-notifications</p>
       </div>
     </div>
