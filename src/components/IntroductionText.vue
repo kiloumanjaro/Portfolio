@@ -7,7 +7,7 @@ defineProps<{
 
 <template>
   <div class="flex flex-col gap-7">
-    <h1 class="text-4xl font-medium w-7/12">{{ title }}</h1>
+    <h1 class="text-5xl font-medium w-7/12">{{ title }}</h1>
     <h3 class="w-2/5">{{ description }}</h3>
   </div>
 </template>

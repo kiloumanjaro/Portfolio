@@ -111,7 +111,7 @@ function handleTabsEnter(event: MouseEvent) {
   cursorState.cursorColor.value = 'transparent'
 
   // Tabs scale animation - quick enlarge then back to normal
-  tabsScale.value = 'scale(1.05)'
+  tabsScale.value = 'scale(1.15)'
 
   // Calculate cursor position relative to container
   const rect = container.getBoundingClientRect()

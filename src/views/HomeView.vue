@@ -6,9 +6,11 @@ import BackgroundSection from '@/components/layouts/BackgroundSection.vue'
 
 <template>
   <main class="py-10">
-    <div class="flex flex-col items-center gap-10">
+    <div class="flex flex-col items-center gap-15">
       <IntroductionSection />
-      <ProjectsSection />
+      <view class="flex h-[900px]">
+        <ProjectsSection />
+      </view>
       <BackgroundSection />
     </div>
   </main>

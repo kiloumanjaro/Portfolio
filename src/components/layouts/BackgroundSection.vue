@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col justify-center w-4xl gap-9">
+  <div class="flex flex-col justify-center w-5xl gap-9">
     <div class="flex flex-col gap-3">
       <h1 class="text-2xl">Background</h1>
       <p>
