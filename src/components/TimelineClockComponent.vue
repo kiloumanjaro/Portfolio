@@ -1,23 +1,21 @@
 <template>
-  <div class="p-4 bg-red-600">
-    <div class="w-full">
-      <div class="items-center min-h-screen">
+  <div class="w-900 h-800">
+    <!-- p-4 * 4.5 = 72px -->
+    <div class="w-full h-full">
+      <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <!-- Timeline Wheel -->
-        <div class="absolute left-1/2 top-120 transform -translate-x-1/2 -translate-y-1/2">
-          <div class="relative w-[2000px] h-[2000px]" ref="constraintsRef">
+        <div
+          class="scale-110 absolute left-1/2 top-180 transform -translate-x-1/2 -translate-y-1/2"
+        >
+          <!-- top-120 * 4.5 = 540px -->
+          <div class="relative" style="width: 9000px; height: 9000px" ref="constraintsRef">
+            <!-- 2000px * 4.5 = 9000px -->
             <div
               class="absolute inset-0 cursor-grab active:cursor-grabbing transition-transform duration-300 ease-out"
               :style="{ transform: `rotate(${rotation}deg)` }"
               @mousedown="handleMouseDown"
               @touchstart="handleTouchStart"
             >
-              <!-- Center circle -->
-              <div
-                class="absolute top-1/2 left-1/2 w-16 h-16 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full shadow-lg z-10 flex items-center justify-center"
-              >
-                <div class="w-8 h-8 bg-blue-600 rounded-full"></div>
-              </div>
-
               <!-- Timeline items -->
               <!-- Connection line container -->
               <div
@@ -27,21 +25,21 @@
                 :style="{
                   left: `calc(50% + ${getItemPosition(index, lineRadius).x}px)`,
                   top: `calc(50% + ${getItemPosition(index, lineRadius).y}px)`,
-                  transform: 'translate(-50%, -50%)',
                 }"
               >
                 <!-- Connection line to center -->
-
                 <div
-                  :class="['absolute w-[1px]', index === selectedIndex ? 'bg-red-600' : 'bg-white']"
+                  :class="['absolute', index === selectedIndex ? 'bg-red-600' : 'bg-white']"
                   :style="{
-                    height: `30px`,
+                    width: '1.5px',
+                    height: '100px',
                     left: '50%',
-                    bottom: '-37px',
+                    bottom: '-131.5px',
                     transformOrigin: 'top center',
                     transform: `translateX(-50%) rotate(${getItemAngle(index)}deg)`,
                   }"
                 />
+                <!-- 1px * 4.5 = 4.5px, 30px * 4.5 = 135px, -37px * 4.5 = -166.5px -->
               </div>
 
               <!-- Text container -->
@@ -52,7 +50,7 @@
                 :style="{
                   left: `calc(50% + ${getItemPosition(index, textRadius).x}px)`,
                   top: `calc(50% + ${getItemPosition(index, textRadius).y}px)`,
-                  transform: 'translate(-50%, -50%)',
+                  transform: 'translate(-50%)',
                 }"
               >
                 <button
@@ -65,9 +63,15 @@
                       'text-center absolute',
                       index === selectedIndex ? 'text-white' : 'text-[#EBEBEBA3]',
                     ]"
-                    style="left: 0px; top: 0px; transform: translate(-50%, -50%)"
+                    :style="{
+                      left: '0px',
+                      top: '0px',
+                      transform: 'translate(-50%, -50%)',
+                      fontSize: '20px',
+                    }"
                   >
-                    <div class="text-lg">{{ item.year }}</div>
+                    <!-- text-lg * 4.5 = 81px -->
+                    {{ item.year }}
                   </div>
                 </button>
               </div>
@@ -77,63 +81,28 @@
                 v-for="i in TOTAL_TICKS"
                 :key="`tick-${i}`"
                 v-show="!isMainItem(i - 1)"
-                class="absolute w-[1px] h-4 bg-white"
+                class="absolute bg-white"
                 :style="{
+                  width: '1.5px',
+                  height: '50px',
                   left: `calc(50% + ${getTickPosition(i - 1).x}px)`,
                   top: `calc(50% + ${getTickPosition(i - 1).y}px)`,
                   transform: `translate(-50%, -50%) rotate(${getTickAngle(i - 1)}deg)`,
                   transformOrigin: 'center bottom',
                 }"
               />
+              <!-- 1px * 4.5 = 4.5px, 4px * 4.5 = 18px -->
             </div>
           </div>
-        </div>
-
-        <!-- Content Panel -->
-        <div class="lg:pl-8">
-          <Transition name="slide" mode="out-in">
-            <div
-              :key="selectedIndex"
-              class="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10"
-            >
-              <div class="flex items-center gap-4 mb-6">
-                <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-                  <span class="text-white font-bold text-lg">
-                    {{ timelineData[selectedIndex].year.toString().slice(-2) }}
-                  </span>
-                </div>
-                <div>
-                  <h1 class="text-3xl font-bold text-white">
-                    {{ timelineData[selectedIndex].title }}
-                  </h1>
-                  <p class="text-blue-400 text-lg">{{ timelineData[selectedIndex].year }}</p>
-                </div>
-              </div>
-
-              <p class="text-xl text-blue-300 mb-6 font-medium">
-                {{ timelineData[selectedIndex].description }}
-              </p>
-
-              <div class="prose prose-invert max-w-none">
-                <p class="text-gray-300 leading-relaxed text-lg">
-                  {{ timelineData[selectedIndex].content }}
-                </p>
-              </div>
-
-              <div class="mt-8 flex gap-4">
-                <button
-                  class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
-                >
-                  Learn More
-                </button>
-                <button
-                  class="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg font-medium transition-colors backdrop-blur-sm"
-                >
-                  Share
-                </button>
-              </div>
-            </div>
-          </Transition>
+          <!-- Fixed Center circle - outside rotating container -->
+          <div
+            class="absolute top-1/2 left-1/2 bg-white rounded-full shadow-lg z-10 flex items-center justify-center"
+            style="width: 72px; height: 72px; transform: translate(-50%, -50%)"
+          >
+            <!-- 16px * 4.5 = 72px -->
+            <div class="bg-blue-600 rounded-full" style="width: 36px; height: 36px"></div>
+            <!-- 8px * 4.5 = 36px -->
+          </div>
         </div>
       </div>
     </div>
@@ -145,7 +114,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 interface TimelineItem {
   id: string
-  year: number
+  year: string
   title: string
   description: string
   content: string
@@ -159,7 +128,7 @@ interface Position {
 const timelineData: TimelineItem[] = [
   {
     id: 'sketchpad',
-    year: 1962,
+    year: '1962',
     title: 'Sketchpad',
     description: 'The first interactive computer graphics program',
     content:
@@ -167,7 +136,7 @@ const timelineData: TimelineItem[] = [
   },
   {
     id: 'mouse',
-    year: 1964,
+    year: '1964',
     title: 'Computer Mouse',
     description: "Douglas Engelbart's pointing device invention",
     content:
@@ -175,7 +144,7 @@ const timelineData: TimelineItem[] = [
   },
   {
     id: 'arpanet',
-    year: 1969,
+    year: '  1969',
     title: 'ARPANET',
     description: 'The precursor to the modern Internet',
     content:
@@ -183,7 +152,7 @@ const timelineData: TimelineItem[] = [
   },
   {
     id: 'ethernet',
-    year: 1973,
+    year: '   1973',
     title: 'Ethernet',
     description: 'Local area networking technology',
     content:
@@ -191,7 +160,7 @@ const timelineData: TimelineItem[] = [
   },
   {
     id: 'personal-computer',
-    year: 1975,
+    year: '    1975',
     title: 'Personal Computer',
     description: 'The Altair 8800 sparks the PC revolution',
     content:
@@ -199,7 +168,7 @@ const timelineData: TimelineItem[] = [
   },
   {
     id: 'world-wide-web',
-    year: 1989,
+    year: '    1989    ',
     title: 'World Wide Web',
     description: "Tim Berners-Lee's information sharing system",
     content:
@@ -207,7 +176,7 @@ const timelineData: TimelineItem[] = [
   },
   {
     id: 'google',
-    year: 1996,
+    year: '1996',
     title: 'Google Search',
     description: 'PageRank algorithm revolutionizes web search',
     content:
@@ -215,7 +184,7 @@ const timelineData: TimelineItem[] = [
   },
   {
     id: 'iphone',
-    year: 2007,
+    year: '2007',
     title: 'iPhone',
     description: 'Smartphone revolution begins',
     content:
@@ -227,17 +196,18 @@ const selectedIndex = ref(0)
 const rotation = ref(0)
 const constraintsRef = ref<HTMLElement | null>(null)
 const isDragging = ref(false)
-const lastPointerPosition = ref({ x: 0, y: 0 })
+const centerPoint = ref({ x: 0, y: 0 })
+const lastAngle = ref(0)
 
 // Configuration constants
 const STARTING_ANGLE = -90 // Aligned to 12 o'clock = 0°
-const TOTAL_TICKS = 56 // Use multiple of 4 to align to X and Y axes (0°, 90°, 180°, 270°)
+const TOTAL_TICKS = 88 // Use multiple of 4 to align to X and Y axes (0°, 90°, 180°, 270°)
 const TICK_ANGLE_STEP = 360 / TOTAL_TICKS // 6° spacing
 
-// Radius configuration
-const radius = 200
-const textRadius = 240
-const lineRadius = 200
+// Radius configuration - all scaled by 4.5x
+const radius = 900 // 200 * 4.5
+const textRadius = 910 // 240 * 4.5
+const lineRadius = 860 // 200 * 4.5
 
 // Computed values
 const angleStep = computed(() => 360 / timelineData.length)
@@ -255,6 +225,15 @@ const getPositionFromAngle = (angleDegrees: number, radius: number): Position =>
   }
 }
 
+// Calculate angle from center point to mouse/touch position
+const getAngleFromCenter = (clientX: number, clientY: number): number => {
+  const deltaX = clientX - centerPoint.value.x
+  const deltaY = clientY - centerPoint.value.y
+  const angleRad = Math.atan2(deltaY, deltaX)
+  const angleDeg = (angleRad * 180) / Math.PI
+  return angleDeg
+}
+
 // Main positioning functions
 const getItemPosition = (index: number, customRadius: number = radius): Position => {
   const angle = itemAngles.value[index]
@@ -267,7 +246,7 @@ const getItemAngle = (index: number): number => {
 
 const getTickPosition = (tickIndex: number): Position => {
   const angle = tickIndex * TICK_ANGLE_STEP + STARTING_ANGLE
-  return getPositionFromAngle(angle, radius - 30)
+  return getPositionFromAngle(angle, radius - 135) // 30 * 4.5 = 135
 }
 
 const getTickAngle = (tickIndex: number): number => {
@@ -281,6 +260,16 @@ const isMainItem = (tickIndex: number): boolean => {
   )
 }
 
+const updateCenterPoint = () => {
+  if (constraintsRef.value) {
+    const rect = constraintsRef.value.getBoundingClientRect()
+    centerPoint.value = {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2,
+    }
+  }
+}
+
 const handleItemClick = (index: number) => {
   const targetRotation = -index * angleStep.value
   rotation.value = targetRotation
@@ -289,15 +278,17 @@ const handleItemClick = (index: number) => {
 
 const handleMouseDown = (event: MouseEvent) => {
   isDragging.value = true
-  lastPointerPosition.value = { x: event.clientX, y: event.clientY }
+  updateCenterPoint()
+  lastAngle.value = getAngleFromCenter(event.clientX, event.clientY)
   document.addEventListener('mousemove', handleMouseMove)
   document.addEventListener('mouseup', handleMouseUp)
 }
 
 const handleTouchStart = (event: TouchEvent) => {
   isDragging.value = true
+  updateCenterPoint()
   const touch = event.touches[0]
-  lastPointerPosition.value = { x: touch.clientX, y: touch.clientY }
+  lastAngle.value = getAngleFromCenter(touch.clientX, touch.clientY)
   document.addEventListener('touchmove', handleTouchMove)
   document.addEventListener('touchend', handleTouchEnd)
 }
@@ -305,10 +296,19 @@ const handleTouchStart = (event: TouchEvent) => {
 const handleMouseMove = (event: MouseEvent) => {
   if (!isDragging.value) return
 
-  const deltaX = event.clientX - lastPointerPosition.value.x
-  const newRotation = rotation.value + deltaX * 0.5
+  const currentAngle = getAngleFromCenter(event.clientX, event.clientY)
+  let angleDelta = currentAngle - lastAngle.value
+
+  // Handle angle wrap-around (crossing 180/-180 boundary)
+  if (angleDelta > 180) {
+    angleDelta -= 360
+  } else if (angleDelta < -180) {
+    angleDelta += 360
+  }
+
+  const newRotation = rotation.value + angleDelta
   rotation.value = newRotation
-  lastPointerPosition.value = { x: event.clientX, y: event.clientY }
+  lastAngle.value = currentAngle
 
   updateSelectedIndex(newRotation)
 }
@@ -317,10 +317,19 @@ const handleTouchMove = (event: TouchEvent) => {
   if (!isDragging.value) return
 
   const touch = event.touches[0]
-  const deltaX = touch.clientX - lastPointerPosition.value.x
-  const newRotation = rotation.value + deltaX * 0.5
+  const currentAngle = getAngleFromCenter(touch.clientX, touch.clientY)
+  let angleDelta = currentAngle - lastAngle.value
+
+  // Handle angle wrap-around (crossing 180/-180 boundary)
+  if (angleDelta > 180) {
+    angleDelta -= 360
+  } else if (angleDelta < -180) {
+    angleDelta += 360
+  }
+
+  const newRotation = rotation.value + angleDelta
   rotation.value = newRotation
-  lastPointerPosition.value = { x: touch.clientX, y: touch.clientY }
+  lastAngle.value = currentAngle
 
   updateSelectedIndex(newRotation)
 }
@@ -344,6 +353,11 @@ const updateSelectedIndex = (newRotation: number) => {
 }
 
 onMounted(() => {
+  updateCenterPoint()
+
+  // Update center point on window resize
+  window.addEventListener('resize', updateCenterPoint)
+
   // Prevent default touch behaviors
   document.addEventListener(
     'touchmove',
@@ -357,6 +371,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  window.removeEventListener('resize', updateCenterPoint)
   document.removeEventListener('mousemove', handleMouseMove)
   document.removeEventListener('mouseup', handleMouseUp)
   document.removeEventListener('touchmove', handleTouchMove)
