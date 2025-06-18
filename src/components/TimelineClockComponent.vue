@@ -1,5 +1,5 @@
 <template>
-  <div class="w-900 h-800 bg-red-600">
+  <div class="w-900 h-800">
     <!-- p-4 * 4.5 = 72px -->
     <div class="w-full h-full">
       <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -29,7 +29,7 @@
                 class="absolute"
                 :style="{
                   left: `calc(50% + ${getItemPosition(index, lineRadius).x}px)`,
-                  top: `calc(48.5% + ${getItemPosition(index, lineRadius).y}px)`,
+                  top: `calc(49.2% + ${getItemPosition(index, lineRadius).y}px)`,
                 }"
               >
                 <!-- Connection line to center -->
@@ -54,7 +54,7 @@
                 class="absolute"
                 :style="{
                   left: `calc(50% + ${getItemPosition(index, textRadius).x}px)`,
-                  top: `calc(48.5% + ${getItemPosition(index, textRadius).y}px)`,
+                  top: `calc(49.2% + ${getItemPosition(index, textRadius).y}px)`,
                   transform: 'translate(-50%)',
                 }"
               >
@@ -91,7 +91,7 @@
                   width: '1px',
                   height: '30px',
                   left: `calc(50% + ${getTickPosition(i - 1).x}px)`,
-                  top: `calc(48.5% + ${getTickPosition(i - 1).y}px)`,
+                  top: `calc(49.2% + ${getTickPosition(i - 1).y}px)`,
                   transform: `translate(-50%, -50%) rotate(${getTickAngle(i - 1)}deg)`,
                   transformOrigin: 'center bottom',
                 }"
