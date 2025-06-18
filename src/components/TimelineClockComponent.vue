@@ -1,20 +1,25 @@
 <template>
-  <div class="w-900 h-800">
+  <div class="w-900 h-800 bg-red-600">
     <!-- p-4 * 4.5 = 72px -->
     <div class="w-full h-full">
       <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <!-- Timeline Wheel -->
         <div
-          class="scale-110 absolute left-1/2 top-180 transform -translate-x-1/2 -translate-y-1/2"
+          class="scale-110 absolute left-1/2 top-155 transform -translate-x-1/2 -translate-y-1/2"
         >
           <!-- top-120 * 4.5 = 540px -->
-          <div class="relative" style="width: 9000px; height: 9000px" ref="constraintsRef">
+          <div class="relative" style="width: 2000px; height: 2000px" ref="constraintsRef">
             <!-- 2000px * 4.5 = 9000px -->
             <div
               class="absolute inset-0 cursor-grab active:cursor-grabbing transition-transform duration-300 ease-out"
               :style="{ transform: `rotate(${rotation}deg)` }"
               @mousedown="handleMouseDown"
               @touchstart="handleTouchStart"
+              @mousemove="handleMouseMove"
+              @mouseup="handleMouseUp"
+              @mouseleave="handleMouseUp"
+              @touchmove="handleTouchMove"
+              @touchend="handleTouchEnd"
             >
               <!-- Timeline items -->
               <!-- Connection line container -->
@@ -24,17 +29,17 @@
                 class="absolute"
                 :style="{
                   left: `calc(50% + ${getItemPosition(index, lineRadius).x}px)`,
-                  top: `calc(50% + ${getItemPosition(index, lineRadius).y}px)`,
+                  top: `calc(48.5% + ${getItemPosition(index, lineRadius).y}px)`,
                 }"
               >
                 <!-- Connection line to center -->
                 <div
-                  :class="['absolute', index === selectedIndex ? 'bg-red-600' : 'bg-white']"
+                  :class="['absolute', index === selectedIndex ? 'bg-red-600' : 'bg-gray-400']"
                   :style="{
                     width: '1.5px',
-                    height: '100px',
+                    height: '55px',
                     left: '50%',
-                    bottom: '-131.5px',
+                    bottom: '-70.5px',
                     transformOrigin: 'top center',
                     transform: `translateX(-50%) rotate(${getItemAngle(index)}deg)`,
                   }"
@@ -49,7 +54,7 @@
                 class="absolute"
                 :style="{
                   left: `calc(50% + ${getItemPosition(index, textRadius).x}px)`,
-                  top: `calc(50% + ${getItemPosition(index, textRadius).y}px)`,
+                  top: `calc(48.5% + ${getItemPosition(index, textRadius).y}px)`,
                   transform: 'translate(-50%)',
                 }"
               >
@@ -67,7 +72,7 @@
                       left: '0px',
                       top: '0px',
                       transform: 'translate(-50%, -50%)',
-                      fontSize: '20px',
+                      fontSize: '15px',
                     }"
                   >
                     <!-- text-lg * 4.5 = 81px -->
@@ -81,12 +86,12 @@
                 v-for="i in TOTAL_TICKS"
                 :key="`tick-${i}`"
                 v-show="!isMainItem(i - 1)"
-                class="absolute bg-white"
+                class="absolute bg-gray-400/70"
                 :style="{
-                  width: '1.5px',
-                  height: '50px',
+                  width: '1px',
+                  height: '30px',
                   left: `calc(50% + ${getTickPosition(i - 1).x}px)`,
-                  top: `calc(50% + ${getTickPosition(i - 1).y}px)`,
+                  top: `calc(48.5% + ${getTickPosition(i - 1).y}px)`,
                   transform: `translate(-50%, -50%) rotate(${getTickAngle(i - 1)}deg)`,
                   transformOrigin: 'center bottom',
                 }"
@@ -196,7 +201,6 @@ const selectedIndex = ref(0)
 const rotation = ref(0)
 const constraintsRef = ref<HTMLElement | null>(null)
 const isDragging = ref(false)
-const centerPoint = ref({ x: 0, y: 0 })
 const lastAngle = ref(0)
 
 // Configuration constants
@@ -206,8 +210,8 @@ const TICK_ANGLE_STEP = 360 / TOTAL_TICKS // 6° spacing
 
 // Radius configuration - all scaled by 4.5x
 const radius = 900 // 200 * 4.5
-const textRadius = 910 // 240 * 4.5
-const lineRadius = 860 // 200 * 4.5
+const textRadius = 840 // 240 * 4.5
+const lineRadius = 815 // 200 * 4.5
 
 // Computed values
 const angleStep = computed(() => 360 / timelineData.length)
@@ -225,13 +229,16 @@ const getPositionFromAngle = (angleDegrees: number, radius: number): Position =>
   }
 }
 
-// Calculate angle from center point to mouse/touch position
-const getAngleFromCenter = (clientX: number, clientY: number): number => {
-  const deltaX = clientX - centerPoint.value.x
-  const deltaY = clientY - centerPoint.value.y
-  const angleRad = Math.atan2(deltaY, deltaX)
-  const angleDeg = (angleRad * 180) / Math.PI
-  return angleDeg
+// Simplified angle calculation from center point
+const getAngleFromEvent = (clientX: number, clientY: number): number => {
+  if (!constraintsRef.value) return 0
+
+  const rect = constraintsRef.value.getBoundingClientRect()
+  const centerX = rect.left + rect.width / 2
+  const centerY = rect.top + rect.height / 2
+  const x = clientX - centerX
+  const y = clientY - centerY
+  return Math.atan2(y, x) * (180 / Math.PI)
 }
 
 // Main positioning functions
@@ -260,90 +267,69 @@ const isMainItem = (tickIndex: number): boolean => {
   )
 }
 
-const updateCenterPoint = () => {
-  if (constraintsRef.value) {
-    const rect = constraintsRef.value.getBoundingClientRect()
-    centerPoint.value = {
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2,
-    }
-  }
-}
-
 const handleItemClick = (index: number) => {
   const targetRotation = -index * angleStep.value
   rotation.value = targetRotation
   selectedIndex.value = index
 }
 
+// Simplified drag handlers using the cleaner physics approach
 const handleMouseDown = (event: MouseEvent) => {
-  isDragging.value = true
-  updateCenterPoint()
-  lastAngle.value = getAngleFromCenter(event.clientX, event.clientY)
-  document.addEventListener('mousemove', handleMouseMove)
-  document.addEventListener('mouseup', handleMouseUp)
+  if (!isDragging.value) {
+    isDragging.value = true
+    lastAngle.value = getAngleFromEvent(event.clientX, event.clientY)
+    event.preventDefault()
+  }
 }
 
 const handleTouchStart = (event: TouchEvent) => {
-  isDragging.value = true
-  updateCenterPoint()
-  const touch = event.touches[0]
-  lastAngle.value = getAngleFromCenter(touch.clientX, touch.clientY)
-  document.addEventListener('touchmove', handleTouchMove)
-  document.addEventListener('touchend', handleTouchEnd)
+  if (!isDragging.value) {
+    isDragging.value = true
+    const touch = event.touches[0]
+    lastAngle.value = getAngleFromEvent(touch.clientX, touch.clientY)
+    event.preventDefault()
+  }
 }
 
 const handleMouseMove = (event: MouseEvent) => {
   if (!isDragging.value) return
 
-  const currentAngle = getAngleFromCenter(event.clientX, event.clientY)
-  let angleDelta = currentAngle - lastAngle.value
+  const currentAngle = getAngleFromEvent(event.clientX, event.clientY)
+  let angleDiff = currentAngle - lastAngle.value
 
-  // Handle angle wrap-around (crossing 180/-180 boundary)
-  if (angleDelta > 180) {
-    angleDelta -= 360
-  } else if (angleDelta < -180) {
-    angleDelta += 360
-  }
+  // Handle angle wrap-around
+  if (angleDiff > 180) angleDiff -= 360
+  if (angleDiff < -180) angleDiff += 360
 
-  const newRotation = rotation.value + angleDelta
-  rotation.value = newRotation
+  rotation.value += angleDiff
   lastAngle.value = currentAngle
 
-  updateSelectedIndex(newRotation)
+  updateSelectedIndex(rotation.value)
 }
 
 const handleTouchMove = (event: TouchEvent) => {
   if (!isDragging.value) return
 
   const touch = event.touches[0]
-  const currentAngle = getAngleFromCenter(touch.clientX, touch.clientY)
-  let angleDelta = currentAngle - lastAngle.value
+  const currentAngle = getAngleFromEvent(touch.clientX, touch.clientY)
+  let angleDiff = currentAngle - lastAngle.value
 
-  // Handle angle wrap-around (crossing 180/-180 boundary)
-  if (angleDelta > 180) {
-    angleDelta -= 360
-  } else if (angleDelta < -180) {
-    angleDelta += 360
-  }
+  // Handle angle wrap-around
+  if (angleDiff > 180) angleDiff -= 360
+  if (angleDiff < -180) angleDiff += 360
 
-  const newRotation = rotation.value + angleDelta
-  rotation.value = newRotation
+  rotation.value += angleDiff
   lastAngle.value = currentAngle
 
-  updateSelectedIndex(newRotation)
+  updateSelectedIndex(rotation.value)
 }
 
 const handleMouseUp = () => {
   isDragging.value = false
-  document.removeEventListener('mousemove', handleMouseMove)
-  document.removeEventListener('mouseup', handleMouseUp)
 }
 
 const handleTouchEnd = () => {
   isDragging.value = false
-  document.removeEventListener('touchmove', handleTouchMove)
-  document.removeEventListener('touchend', handleTouchEnd)
 }
 
 const updateSelectedIndex = (newRotation: number) => {
@@ -353,11 +339,6 @@ const updateSelectedIndex = (newRotation: number) => {
 }
 
 onMounted(() => {
-  updateCenterPoint()
-
-  // Update center point on window resize
-  window.addEventListener('resize', updateCenterPoint)
-
   // Prevent default touch behaviors
   document.addEventListener(
     'touchmove',
@@ -371,11 +352,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  window.removeEventListener('resize', updateCenterPoint)
-  document.removeEventListener('mousemove', handleMouseMove)
-  document.removeEventListener('mouseup', handleMouseUp)
-  document.removeEventListener('touchmove', handleTouchMove)
-  document.removeEventListener('touchend', handleTouchEnd)
+  // Cleanup is handled by Vue's event system since we moved to inline handlers
 })
 </script>
 

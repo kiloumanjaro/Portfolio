@@ -50,7 +50,7 @@ onUnmounted(() => {
 
     <header>
       <div class="flex flex-row w-full p-10 justify-between items-center">
-        <h1 class="text-lg font-bold text-white">KILOU</h1>
+        <TabsComponent />
         <div class="flex gap-3 text-white">
           <a
             href="https://www.linkedin.com/in/kint-louise-borbano-6982a4327/"
@@ -62,9 +62,6 @@ onUnmounted(() => {
           <a href="https://github.com/kiloumanjaro" target="_blank" rel="noopener">
             <AnimatedLinkComponent name="GitHub" rounded="rounded-md" />
           </a>
-        </div>
-        <div class="absolute left-1/2 transform -translate-x-1/2">
-          <TabsComponent />
         </div>
       </div>
     </header>
