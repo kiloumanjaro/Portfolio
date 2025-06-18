@@ -1,113 +1,109 @@
 <template>
-  <div class="w-900 h-800">
-    <!-- p-4 * 4.5 = 72px -->
-    <div class="w-full h-full">
-      <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <!-- Timeline Wheel -->
-        <div
-          class="scale-110 absolute left-1/2 top-155 transform -translate-x-1/2 -translate-y-1/2"
-        >
-          <!-- top-120 * 4.5 = 540px -->
-          <div class="relative" style="width: 2000px; height: 2000px" ref="constraintsRef">
-            <!-- 2000px * 4.5 = 9000px -->
+  <!-- p-4 * 4.5 = 72px -->
+  <div class="absolute top-0 left-0 w-full">
+    <div class="">
+      <!-- Timeline Wheel -->
+      <div class="scale-110">
+        <!-- top-120 * 4.5 = 540px -->
+        <div style="width: 2000px; height: 1950px" ref="constraintsRef">
+          <!-- 2000px * 4.5 = 9000px -->
+          <div
+            class="absolute inset-0 cursor-grab active:cursor-grabbing transition-transform duration-300 ease-out"
+            :style="{ transform: `rotate(${rotation}deg)` }"
+            @mousedown="handleMouseDown"
+            @touchstart="handleTouchStart"
+            @mousemove="handleMouseMove"
+            @mouseup="handleMouseUp"
+            @mouseleave="handleMouseUp"
+            @touchmove="handleTouchMove"
+            @touchend="handleTouchEnd"
+          >
+            <!-- Timeline items -->
+            <!-- Connection line container -->
             <div
-              class="absolute inset-0 cursor-grab active:cursor-grabbing transition-transform duration-300 ease-out"
-              :style="{ transform: `rotate(${rotation}deg)` }"
-              @mousedown="handleMouseDown"
-              @touchstart="handleTouchStart"
-              @mousemove="handleMouseMove"
-              @mouseup="handleMouseUp"
-              @mouseleave="handleMouseUp"
-              @touchmove="handleTouchMove"
-              @touchend="handleTouchEnd"
+              v-for="(item, index) in timelineData"
+              :key="`line-${item.id}`"
+              class="absolute"
+              :style="{
+                left: `calc(50% + ${getItemPosition(index, lineRadius).x}px)`,
+                top: `calc(49.2% + ${getItemPosition(index, lineRadius).y}px)`,
+              }"
             >
-              <!-- Timeline items -->
-              <!-- Connection line container -->
+              <!-- Connection line to center -->
               <div
-                v-for="(item, index) in timelineData"
-                :key="`line-${item.id}`"
-                class="absolute"
+                :class="['absolute', index === selectedIndex ? 'bg-red-600' : 'bg-gray-400']"
                 :style="{
-                  left: `calc(50% + ${getItemPosition(index, lineRadius).x}px)`,
-                  top: `calc(49.2% + ${getItemPosition(index, lineRadius).y}px)`,
-                }"
-              >
-                <!-- Connection line to center -->
-                <div
-                  :class="['absolute', index === selectedIndex ? 'bg-red-600' : 'bg-gray-400']"
-                  :style="{
-                    width: '1.5px',
-                    height: '55px',
-                    left: '50%',
-                    bottom: '-70.5px',
-                    transformOrigin: 'top center',
-                    transform: `translateX(-50%) rotate(${getItemAngle(index)}deg)`,
-                  }"
-                />
-                <!-- 1px * 4.5 = 4.5px, 30px * 4.5 = 135px, -37px * 4.5 = -166.5px -->
-              </div>
-
-              <!-- Text container -->
-              <div
-                v-for="(item, index) in timelineData"
-                :key="`text-${item.id}`"
-                class="absolute"
-                :style="{
-                  left: `calc(50% + ${getItemPosition(index, textRadius).x}px)`,
-                  top: `calc(49.2% + ${getItemPosition(index, textRadius).y}px)`,
-                  transform: 'translate(-50%)',
-                }"
-              >
-                <button
-                  @click="handleItemClick(index)"
-                  class="relative cursor-pointer bg-transparent border-none p-0"
-                  :style="{ transform: `rotate(${-rotation}deg)` }"
-                >
-                  <div
-                    :class="[
-                      'text-center absolute',
-                      index === selectedIndex ? 'text-white' : 'text-[#EBEBEBA3]',
-                    ]"
-                    :style="{
-                      left: '0px',
-                      top: '0px',
-                      transform: 'translate(-50%, -50%)',
-                      fontSize: '15px',
-                    }"
-                  >
-                    <!-- text-lg * 4.5 = 81px -->
-                    {{ item.year }}
-                  </div>
-                </button>
-              </div>
-
-              <!-- Tick marks -->
-              <div
-                v-for="i in TOTAL_TICKS"
-                :key="`tick-${i}`"
-                v-show="!isMainItem(i - 1)"
-                class="absolute bg-gray-400/70"
-                :style="{
-                  width: '1px',
-                  height: '30px',
-                  left: `calc(50% + ${getTickPosition(i - 1).x}px)`,
-                  top: `calc(49.2% + ${getTickPosition(i - 1).y}px)`,
-                  transform: `translate(-50%, -50%) rotate(${getTickAngle(i - 1)}deg)`,
-                  transformOrigin: 'center bottom',
+                  width: '1.5px',
+                  height: '55px',
+                  left: '50%',
+                  bottom: '-70.5px',
+                  transformOrigin: 'top center',
+                  transform: `translateX(-50%) rotate(${getItemAngle(index)}deg)`,
                 }"
               />
-              <!-- 1px * 4.5 = 4.5px, 4px * 4.5 = 18px -->
+              <!-- 1px * 4.5 = 4.5px, 30px * 4.5 = 135px, -37px * 4.5 = -166.5px -->
             </div>
+
+            <!-- Text container -->
+            <div
+              v-for="(item, index) in timelineData"
+              :key="`text-${item.id}`"
+              class="absolute"
+              :style="{
+                left: `calc(50% + ${getItemPosition(index, textRadius).x}px)`,
+                top: `calc(49.2% + ${getItemPosition(index, textRadius).y}px)`,
+                transform: 'translate(-50%)',
+              }"
+            >
+              <button
+                @click="handleItemClick(index)"
+                class="relative cursor-pointer bg-transparent border-none p-0"
+                :style="{ transform: `rotate(${-rotation}deg)` }"
+              >
+                <div
+                  :class="[
+                    'text-center absolute',
+                    index === selectedIndex ? 'text-white' : 'text-[#EBEBEBA3]',
+                  ]"
+                  :style="{
+                    left: '0px',
+                    top: '0px',
+                    transform: 'translate(-50%, -50%)',
+                    fontSize: '15px',
+                  }"
+                >
+                  <!-- text-lg * 4.5 = 81px -->
+                  {{ item.year }}
+                </div>
+              </button>
+            </div>
+
+            <!-- Tick marks -->
+            <div
+              v-for="i in TOTAL_TICKS"
+              :key="`tick-${i}`"
+              v-show="!isMainItem(i - 1)"
+              class="absolute bg-gray-400/70"
+              :style="{
+                width: '1px',
+                height: '30px',
+                left: `calc(50% + ${getTickPosition(i - 1).x}px)`,
+                top: `calc(49.2% + ${getTickPosition(i - 1).y}px)`,
+                transform: `translate(-50%, -50%) rotate(${getTickAngle(i - 1)}deg)`,
+                transformOrigin: 'center bottom',
+              }"
+            />
+            <!-- 1px * 4.5 = 4.5px, 4px * 4.5 = 18px -->
           </div>
-          <!-- Fixed Center circle - outside rotating container -->
-          <div
-            class="absolute top-1/2 left-1/2 bg-white rounded-full shadow-lg z-10 flex items-center justify-center"
-            style="width: 72px; height: 72px; transform: translate(-50%, -50%)"
-          >
-            <!-- 16px * 4.5 = 72px -->
-            <div class="bg-blue-600 rounded-full" style="width: 36px; height: 36px"></div>
-            <!-- 8px * 4.5 = 36px -->
-          </div>
+        </div>
+        <!-- Fixed Center circle - outside rotating container -->
+        <div
+          class="absolute top-1/2 left-1/2 bg-white rounded-full shadow-lg z-10 flex items-center justify-center"
+          style="width: 72px; height: 72px; transform: translate(-50%, -50%)"
+        >
+          <!-- 16px * 4.5 = 72px -->
+          <div class="bg-blue-600 rounded-full" style="width: 36px; height: 36px"></div>
+          <!-- 8px * 4.5 = 36px -->
         </div>
       </div>
     </div>
