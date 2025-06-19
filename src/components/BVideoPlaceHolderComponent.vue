@@ -1,5 +1,5 @@
 <template>
-  <div class="relative overflow-hidden rounded-lg bg-black">
+  <div class="relative overflow-hidden rounded-lg" :class="border">
     <video
       v-if="videoSrc"
       :src="videoSrc"
@@ -16,27 +16,27 @@
       </div>
     </div>
 
-    <div v-if="topLeftText" class="absolute top-4 left-4 text-white text-sm drop-shadow-lg">
+    <div v-if="topLeftText" class="absolute top-4 left-4 text-[#171717] text-[13px] drop-shadow-lg">
       {{ topLeftText }}
     </div>
 
     <div
       v-if="topRightText"
-      class="absolute top-4 right-4 text-[#939393] font-medium text-sm drop-shadow-lg"
+      class="absolute top-4 right-4 text-black/55 text-[13px] drop-shadow-lg"
     >
       {{ topRightText }}
     </div>
 
     <div
       v-if="bottomLeftText"
-      class="absolute bottom-4 left-4 text-white font-medium text-sm drop-shadow-lg"
+      class="absolute bottom-4 left-4 text-[#171717] text-[13px] drop-shadow-lg"
     >
       {{ bottomLeftText }}
     </div>
 
     <div
       v-if="bottomRightText"
-      class="absolute bottom-4 right-4 text-white font-medium text-sm drop-shadow-lg"
+      class="absolute bottom-4 right-4 text-black/55 text-[13px] drop-shadow-lg"
     >
       {{ bottomRightText }}
     </div>
@@ -57,6 +57,7 @@ const props = withDefaults(
     topRightText?: string
     bottomLeftText?: string
     bottomRightText?: string
+    border?: string
   }>(),
   {
     videoSrc: '',
@@ -68,6 +69,7 @@ const props = withDefaults(
     topRightText: '',
     bottomLeftText: '',
     bottomRightText: '',
+    border: '',
   },
 )
 

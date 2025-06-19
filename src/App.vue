@@ -48,7 +48,7 @@ onUnmounted(() => {
       }"
     ></div>
 
-    <header>
+    <header class="relative z-50">
       <div class="flex flex-row w-full p-10 justify-between items-center">
         <TabsComponent />
         <div class="flex gap-3 text-white">
