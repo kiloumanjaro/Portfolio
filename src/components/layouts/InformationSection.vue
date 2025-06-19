@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center w-3xl gap-9">
+  <div class="flex flex-col items-center w-4xl gap-9">
     <div class="w-9/12">
       <h1 class="font-bold text-4xl text-center">
         An adventurous soul, constantly seeking novelty in the world of innovative design &
