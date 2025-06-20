@@ -4,7 +4,7 @@
     @mouseenter="handleButtonEnter($event)"
     @mouseleave="handleButtonLeave"
     @mousemove="handleButtonMove"
-    class="relative overflow-hidden bg-[#181818] text-white px-5 py-2 w-full group transition-transform duration-100 ease-out"
+    class="overflow-hidden bg-[#232323] w-full group transition-transform duration-100 ease-out"
     :class="rounded"
     :style="{ transform: buttonScale }"
   >
@@ -25,14 +25,12 @@
     ></div>
 
     <span
-      class="relative z-10 flex items-center transition-transform duration-200 ease-out"
-      :class="justify"
+      class="relative top-[1px] flex items-center justify-center transition-transform duration-200 ease-out"
       :style="{ transform: buttonTransform }"
     >
-      <div class="shrink-0" v-if="icon">
-        <v-icon :icon="icon" size="80" />
+      <div v-if="icon">
+        <v-icon :icon="icon" size="30" />
       </div>
-      <p class="text-white text-md" v-else>{{ name }}</p>
     </span>
   </button>
 </template>
@@ -44,7 +42,6 @@ defineProps<{
   icon?: string
   name?: string
   rounded?: string
-  justify?: string
 }>()
 
 const buttonTransform = ref('translate(0, 0)')
