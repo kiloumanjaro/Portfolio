@@ -11,7 +11,7 @@ import TimelineClockComponent from '@/components/TimelineClockComponent.vue'
   <main>
     <TimelineClockComponent />
   </main>
-  <div class="py-30">
+  <div class="py-25">
     <div class="flex flex-col items-center gap-28">
       <div class="flex flex-col items-center gap-10">
         <ProfilePictureComponent />

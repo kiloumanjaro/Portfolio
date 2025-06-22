@@ -3,7 +3,7 @@ import TechnologyComponent from '../TechnologyComponent.vue'
 </script>
 
 <template>
-  <div class="flex flex-col w-3xl gap-5">
+  <div class="flex flex-col w-4xl gap-5">
     <h1 class="text-xl px-4">Techstack</h1>
     <div class="grid grid-cols-3 gap-5">
       <TechnologyComponent icon="python" title="Python" width="30%" />
