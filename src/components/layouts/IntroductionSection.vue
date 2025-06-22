@@ -11,10 +11,9 @@ const role = 'web design'
     <div class="flex flex-col items-center gap-8">
       <AvailabilityComponent size="sm" status-text="Available for new project" />
       <IntroductionText
-        title="Kint Louise is a creative force in "
-        description="My passion is create emotional experiences
-at the intersection of art, design, and AI. My passion is create emotional  "
+        title="a creative force in"
         :role="role"
+        description="With a strong background in design and a passion for technology, I merge creativity and code to craft expressive interfaces that don’t just function — they feel."
       />
     </div>
 

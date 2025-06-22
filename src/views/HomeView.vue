@@ -11,7 +11,7 @@ import ExpandbaleComponent from '@/components/ExpandbaleComponent.vue'
 <template>
   <main>
     <TimelineClockComponent />
-    <div class="flex flex-col items-center pt-25 pb-20 gap-15">
+    <div class="flex flex-col items-center pt-25 pb-20 gap-25">
       <IntroductionSection />
       <view class="flex h-[900px]">
         <ProjectsSection />
